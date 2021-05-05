@@ -4,6 +4,7 @@
  */
 package io.sofastack.stockmng.controller;
 
+import io.sofastack.balance.manage.model.TestWFW;
 import io.sofastack.stockmng.model.BalanceResponse;
 import io.sofastack.stockmng.model.ProductInfo;
 import io.sofastack.stockmng.model.Success;
@@ -61,4 +62,8 @@ public interface BookStoreController {
     @RequestMapping(value = "/queryBalance", method = RequestMethod.POST)
     @ResponseBody
     BalanceResponse queryBalance(@RequestBody String body);
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseBody
+    Success test();
 }

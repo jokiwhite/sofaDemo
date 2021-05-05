@@ -1,5 +1,6 @@
 package io.sofastack.balance.manage;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BalanceMngApplication {
     public static void main(String[] args) {
+
         SpringApplication.run(BalanceMngApplication.class, args);
     }
 }

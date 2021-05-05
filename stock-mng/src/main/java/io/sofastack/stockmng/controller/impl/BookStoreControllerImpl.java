@@ -6,7 +6,11 @@ package io.sofastack.stockmng.controller.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alipay.sofa.runtime.api.annotation.SofaReference;
+import com.alipay.sofa.runtime.api.annotation.SofaReferenceBinding;
 import io.sofastack.balance.manage.facade.BalanceMngFacade;
+import io.sofastack.balance.manage.facade.TestFacade;
+import io.sofastack.balance.manage.model.TestWFW;
 import io.sofastack.stockmng.controller.BookStoreController;
 import io.sofastack.stockmng.facade.StockMngFacade;
 import io.sofastack.stockmng.model.BalanceResponse;
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,9 +34,14 @@ public class BookStoreControllerImpl implements BookStoreController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BookStoreControllerImpl.class);
 
+    @SofaReference(interfaceType = StockMngFacade.class, uniqueId = "${service.unique.id}", binding = @SofaReferenceBinding(bindingType = "bolt"))
     private StockMngFacade stockMngFacade;
 
+    @SofaReference(interfaceType = BalanceMngFacade.class, uniqueId = "${service.unique.id}", binding = @SofaReferenceBinding(bindingType = "bolt"))
     private BalanceMngFacade balanceMngFacade;
+
+    @SofaReference(interfaceType = TestFacade.class,uniqueId = "${service.unique.id}", binding = @SofaReferenceBinding(bindingType = "bolt"))
+    private TestFacade testFacade;
 
     @Override
     public List<ProductInfo> query(String body) {
@@ -40,6 +50,7 @@ public class BookStoreControllerImpl implements BookStoreController {
         return stockMngFacade.query(userName);
     }
 
+    
     @Override
     public List<ProductInfo> querySorted(String body) {
         //TODO(guolei.sgl): SOFA 动态模块
@@ -90,5 +101,14 @@ public class BookStoreControllerImpl implements BookStoreController {
         BalanceResponse balance = new BalanceResponse();
         balance.setBalance((balanceMngFacade.queryBalance(userName)));
         return balance;
+    }
+
+    @Override
+    public Success test() {
+        List<TestWFW> query = testFacade.query();
+        System.out.println(query);
+        Success success = new Success();
+        success.setSuccess("true");
+        return success;
     }
 }
